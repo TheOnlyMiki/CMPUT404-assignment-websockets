@@ -63,7 +63,9 @@ myWorld = World()
 
 def set_listener( entity, data ):
     ''' do something with the update ! '''
-    send_all_json( { entity : data } )
+    # Why it only half entity been RECV read? but comment it, it works. ???
+    #send_all_json( { entity : data } )
+    return None
 
 '''
 ============================================================
