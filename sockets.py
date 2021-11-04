@@ -108,13 +108,27 @@ def hello():
 def read_ws(ws,client):
     '''A greenlet function that reads from the websocket and updates the world'''
     # XXX: TODO IMPLEMENT ME
+    # Copy part from uofa-cmput404 / cmput404-slides
+    # Source: https://github.com/uofa-cmput404/cmput404-slides/blob/master/examples/WebSocketsExamples/chat.py
     try:
         while True:
             msg = ws.receive()
             print("WS RECV: %s" % msg)
             if (msg is not None):
-                packet = json.loads(msg)
-                send_all_json( packet )
+                # ====================
+                # START Modify
+                # ====================
+                for entity, data in json.loads(msg).items():
+                    if not data:
+                        # Why not work... what was different between jsonify and dmups?
+                        #ws.send( jsonify( myWorld.world() ) )
+                        ws.send( json.dumps( myWorld.world() ) )
+                    else:
+                        myWorld.set( entity, data )
+                        send_all_json( { entity : myWorld.get( entity ) } )
+                # ====================
+                # END Modify
+                # ====================
             else:
                 break
     except:
