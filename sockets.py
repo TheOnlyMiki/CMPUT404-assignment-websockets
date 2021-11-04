@@ -26,6 +26,39 @@ app = Flask(__name__)
 sockets = Sockets(app)
 app.debug = True
 
+'''
+============================================================
+START Addition Code
+Copy from uofa-cmput404 / cmput404-slides
+Source: https://github.com/uofa-cmput404/cmput404-slides/blob/master/examples/WebSocketsExamples/chat.py
+============================================================
+'''
+
+clients = list()
+
+def send_all(msg):
+    for client in clients:
+        client.put( msg )
+
+def send_all_json(obj):
+    send_all( json.dumps(obj) )
+
+class Client:
+    def __init__(self):
+        self.queue = queue.Queue()
+
+    def put(self, v):
+        self.queue.put_nowait(v)
+
+    def get(self):
+        return self.queue.get()
+
+'''
+============================================================
+END Addition Code
+============================================================
+'''
+
 class World:
     def __init__(self):
         self.clear()
@@ -66,39 +99,6 @@ def set_listener( entity, data ):
     # Why it only half entity been RECV read? but comment it, it works. ???
     #send_all_json( { entity : data } )
     return None
-
-'''
-============================================================
-START Addition Code
-Copy from uofa-cmput404 / cmput404-slides
-Source: https://github.com/uofa-cmput404/cmput404-slides/blob/master/examples/WebSocketsExamples/chat.py
-============================================================
-'''
-
-clients = list()
-
-def send_all(msg):
-    for client in clients:
-        client.put( msg )
-
-def send_all_json(obj):
-    send_all( json.dumps(obj) )
-
-class Client:
-    def __init__(self):
-        self.queue = queue.Queue()
-
-    def put(self, v):
-        self.queue.put_nowait(v)
-
-    def get(self):
-        return self.queue.get()
-
-'''
-============================================================
-END Addition Code
-============================================================
-'''
 
 myWorld.add_set_listener( set_listener )
         
