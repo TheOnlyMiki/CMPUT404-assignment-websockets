@@ -59,3 +59,9 @@ Contributors
 * Mark Galloway
 * Abram Hindle
 * Cole Mackenzie
+* JingZeng Xie
+
+Reference list
+====================
+* Client code copy from - https://github.com/uofa-cmput404/cmput404-slides/blob/master/examples/WebSocketsExamples/chat.py
+* Subscribe of socket copy from above URL
